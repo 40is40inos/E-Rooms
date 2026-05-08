@@ -2,13 +2,13 @@
 
 A full-stack web application designed for managing corporate or hospitality room bookings, employee profiles, and administrative oversight. This project was developed by Sarantis Sarantinos and Kiriaki Dimopoulou as part of the "Analysis and Design of Information Systems" curriculum (HY351).
 
-## 🚀 Overview
+## Overview
 
 E-Rooms is a comprehensive solution for organizations to manage internal space resources. It provides a dual-interface system: a user-facing portal for employees to browse and book rooms, and a powerful administrative dashboard for system oversight.
 
 ## ✨ Key Features
 
-### 👤 User Portal
+### User Portal
 *   **Dynamic Room Filtering:** Filter available rooms based on date range and person capacity.
 *   **Interactive Booking Calendar:** Integrated `FullCalendar` support to view room availability in real-time.
 *   **Reservation Management:** Track booking history and status (Accepted, Active, Done).
@@ -16,13 +16,13 @@ E-Rooms is a comprehensive solution for organizations to manage internal space r
 *   **Notification Engine:** Real-time updates on booking confirmations and system alerts.
 *   **Profile Management:** Secure personal information updates for employees.
 
-### 🛡️ Administrative Dashboard
+### Administrative Dashboard
 *   **Employee CRUD:** Full lifecycle management of employee profiles and credentials.
 *   **Room Catalog Management:** Add, edit, or remove rooms, including capacity constraints and multimedia assets.
 *   **Reservation Oversight:** Centralized view of all system-wide bookings with administrative control.
 *   **Automated Status Handling:** Intelligent backend logic that transitions reservation states based on current dates.
 
-## 🛠️ Technical Stack
+## Technical Stack
 
 *   **Backend:** Node.js, Express.js
 *   **Database:** SQLite3 (Relational storage with complex triggers and state updates)
@@ -30,7 +30,7 @@ E-Rooms is a comprehensive solution for organizations to manage internal space r
 *   **Communication:** Nodemailer (Email integration)
 *   **Data Visualization:** FullCalendar, Moment.js
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 E-Rooms-master/
@@ -45,7 +45,7 @@ E-Rooms-master/
 └── package.json        # Dependencies and project metadata
 ```
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 *   [Node.js](https://nodejs.org/) (v14 or higher recommended)
@@ -71,6 +71,6 @@ E-Rooms-master/
 4.  **Access the application:**
     Open your browser and navigate to `http://localhost:3000` (or the port specified in `server.js`).
 
-## 📝 License
+## License
 
 This project was developed by Sarantis Sarantinos and Kiriaki Dimopoulou for academic purposes under the HY351 course.
