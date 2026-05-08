@@ -6,7 +6,7 @@ A full-stack web application designed for managing corporate or hospitality room
 
 E-Rooms is a comprehensive solution for organizations to manage internal space resources. It provides a dual-interface system: a user-facing portal for employees to browse and book rooms, and a powerful administrative dashboard for system oversight.
 
-## ✨ Key Features
+## Key Features
 
 ### User Portal
 *   **Dynamic Room Filtering:** Filter available rooms based on date range and person capacity.
