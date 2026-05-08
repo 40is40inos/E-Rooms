@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>E-Rooms</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./login_script.js"></script>
+	<script src="./script.js"></script>
+</head>
+<body onload="ShowRooms();">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand">E-Rooms</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="AdminLogin(); return false;">Administrator</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="UserLogin(); return false;">User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container"> 
+        <div id="startbtn" class="isvisible">
+
+        </div>
+        <div id="adminLogin" class="ishidden">
+            <div  class="login-prompt">
+                <h1>Login Admin</h1>
+                <form id="admin_form" onsubmit="isAdmin(); return false;">
+                    <div class="form-group">
+                        <label for="a_username">Username</label>
+                        <input type="text" class="form-control" id="a_username" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label for="a_password">Password</label>
+                        <input type="password" class="form-control" id="a_password" placeholder="Password">
+                    </div>
+                    <div id="adm_msg"></div>
+                    <button type="submit" class="btn btn-success btn-block">Login</button>
+                    <button class="btn btn-info btn-block" onclick="location.reload();">Go Back</button>
+                </form>
+            </div>
+        </div>  
+
+        <div id="userLogin" class="ishidden">
+            <div class="login-prompt">
+                <h1>Login User</h1>
+                <form id="user_form" onsubmit="isUser(); return false;">
+                    <div class="form-group">
+                        <label for="u_username">Username</label>
+                        <input type="text" class="form-control" id="u_username" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                        <label for="u_password">Password</label>
+                        <input type="password" class="form-control" id="u_password" placeholder="Password">
+                    </div>
+                    <div id="per_msg"></div>
+                    <button type="submit" class="btn btn-success btn-block">Login</button>
+                    <button class="btn btn-info btn-block" onclick="location.reload();">Go Back</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="rooms" class="ishidden">
+            <br>            
+            <div class="row">
+                <div class="card-deck" id="room_cards"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+</html>

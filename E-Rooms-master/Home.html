@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="home_script.js"></script>
+	<script src="./script.js"></script>
+    <title>Home</title>
+</head>
+<!-- <body onload="ShowNotifications(); document.getElementById('btn_username').innerHTML = sessionStorage.getItem('username');" > -->
+<body onload="onload();" >
+	<nav class="navbar navbar-expand-lg navbar-dark ">
+		<div class="container">
+			<!-- <a class="navbar-brand">Administrator</a> -->
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a id="btn_notific" class="nav-link" href="#" onclick="ShowNotifications(); return false;">Notifications</a>
+					</li>
+					<li class="nav-item">
+						<a id="btn_rooms" class="nav-link" href="#" onclick="ShowRooms(); return false;">Rooms</a>
+					</li>					
+					<li class="nav-item">
+						<a id="btn_PerInfo" class="nav-link" href="#" onclick="ShowPersonalInfoForm(); return false;">Personal Info</a>
+					</li>
+					<li class="nav-item">
+						<a id="btn_history"  class="nav-link" href="#" onclick="ShowHistory();">My Bookings</a>
+					</li>		
+					<li class="nav-item">
+						<a id="btn_username"  class="nav-link" href="#"></a>
+					</li>			
+					<li class="nav-item">
+						<a id="btn_logout"  class="nav-link" href="#" onclick="sessionStorage.removeItem('username'); window.location.href = './Login.html'; ">logout</a>
+					</li>					
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="container">
+		<br>
+		<div id="rooms" class="ishidden">
+			<div class="container mt-5">
+				<div class="form-row">
+					<div class="col-2">
+						<label for="persons">Persons:</label>
+						<input type="number" class="form-control" id="persons" name="persons" required style="max-width: 100px;" min="2">
+					</div>
+					<div class="col-2">
+						<label for="fromDate">From Date:</label>
+						<input type="date" class="form-control" id="fromDate" name="fromDate" style="max-width: 200px;">
+					</div>
+					<div class="col-2">
+						<label for="toDate">To Date:</label>
+						<input type="date" class="form-control" id="toDate" name="toDate" style="max-width: 200px;">
+					</div>
+				</div>
+				<br>
+				<button type="button" class="btn btn-info" onclick="ShowRooms()">Filter Rooms</button>
+				<button type="button" class="btn btn-secondary" onclick=" document.getElementById('persons').value = '';document.getElementById('fromDate').value = '';document.getElementById('toDate').value = '';ShowRooms()">Clear Filters</button>
+			</div>
+			<br>
+			<div class="row">
+				<div class="card-deck" id="room_cards"></div>
+			</div>
+		</div>
+
+		<div id="history" class="ishidden">
+			<div class="d-flex flex-column ">
+				<table id="historyTable" class="styled-table"></table>
+			</div>
+		</div>
+
+		<div id="addReviewForm" class="ishidden">
+			<div>
+				<button class="btn btn-info" onclick="ShowHistory();">Back</button>
+			</div>
+			<div  class="form-prompt">
+				<form id="reviewForm" onsubmit="addReview(); return false;">
+					<div class="form-group">
+						<label for="room_id">Room ID:</label><br>
+						<input type="text" name="room_id" id="room_id" disabled>			
+					</div>
+					<div class="form-group">
+						<label for="username">username:</label><br>
+						<input type="text" name="username" id="username" disabled >
+					</div>
+					<div class="form-group">
+						<label for="date">Date:</label><br>
+						<input type="text" name="date" id="date" disabled >
+					</div>
+					<div class="form-group">
+						<label for="review_text">Review:</label><br>
+						<textarea id="review_text" name="review_text" required></textarea>
+					</div>
+					<button id="btn_addReview" type="submit" class="btn btn-danger">Add</button>
+					<button id="btn_addReviewOK" type="button" class="btn btn-success" disabled onclick="ShowNotifications();">OK</button>
+				</form>
+				<div id="newReview_msg"></div>
+			</div>
+		</div> 
+
+		<div id="singleRoomDisplay" class="ishidden">
+			<div>
+				<button class="btn btn-info" onclick="ShowRooms();">Back</button>
+			</div>
+			<div class="row mt-4">
+				<div class="col-md-4" id="img1"></div>
+				<div class="col-md-4" id="img2"></div>
+			</div>
+			<h4 id="r_name"></h4>
+			<hr>
+			<div class="container mt-4">
+				<div class="row mt-4">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="start_date">Start Date:</label>
+							<input type="date" id="start_date" class="form-control"  style="max-width: 200px;" onfocus="document.getElementById('date_error').innerHTML='';">
+						</div>
+						<div class="form-group">
+							<label for="end_date">End Date:</label>
+							<input type="date" id="end_date" class="form-control"  style="max-width: 200px;" onfocus="document.getElementById('date_error').innerHTML='';">
+							<h6 class="ishidden" id="date_error" style="color: red;"></h6>
+						</div>
+						<div id="bookItDiv"></div>
+					</div>
+					<div class="col-md-6">
+						<div class="container" id="calendarDiv">
+							<div id="calendar" style="max-width: 500px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div id="RoomReviews" >
+				<h4 style="color: brown;">Reviews</h4>
+				<h6 id="Review_msg"></h6>
+				<div id="ReviewDetails"></div>
+			</div>
+		</div>
+
+        <div id="PersonalInfoForm" class="ishidden">
+			<div  class="form-prompt">
+				<form id="edit_employeeForm" >	
+					<div class="form-group">
+						<label for="id">id:</label>
+						<input type="text" name="id" id="empl_id" style="width: 30px;" disabled >
+						<label for="username">username:</label>
+						<input type="text" name="username" id="user" disabled style="width: 80px;" >	
+						<label for="password">password:</label>
+						<input type="text" name="password" id="password" disabled style="width: 80px;" >		
+					</div>								
+					<div class="form-group">
+						<label for="position">Position:</label><br>
+						<input type="text" name="position" id="position" disabled>			
+					</div>
+					<div class="form-group">
+						<label for="FirstName">First Name:</label><br>
+						<input type="text" name="FirstName" id="FirstName" >
+					</div>
+					<div class="form-group">
+						<label for="LastName">Last Name:</label><br>
+						<input type="text" name="LastName" id="LastName" >
+					</div>
+					<div class="form-group">
+						<label for="gender">Gender:</label><br>
+						<select name="gender" id="gender">
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="email">Email:</label><br>
+						<input type="email" name="email" id="email" disabled>
+					</div>
+					<div class="form-group">
+						<label for="phone_number">Phone Number:</label><br>
+						<input type="tel" name="phone_number" id="phone_number">
+					</div>
+					<div class="form-group">
+						<label for="country">Country:</label><br>
+						<input type="text" name="country" id="country">
+					</div>
+					<div class="form-group">
+						<label for="city">City:</label><br>
+						<input type="text" name="city" id="city">
+					</div>
+					<div class="form-group">
+						<label for="zip_code">Zip Code:</label><br>
+						<input type="text" name="zip_code" id="zip_code">
+					</div>
+					<div class="form-group">
+						<label for="address">Address:</label><br>
+						<input type="text" name="address" id="address">
+					</div>
+					<button id="btn_updateEmployee"  type="button" class="btn btn-danger" onclick="UpdatePersonalInfo();">Update</button>
+					<button id="btn_editEmployee_OK" type="button" class="btn btn-success" disabled onclick="ShowPersonalInfoForm();">OK</button>
+				</form>
+				<div id="EmployeeEdit_msg"></div>
+			</div>
+		</div>  
+
+		<div id="notifications" class="ishidden" style="display:flex; justify-content: center; align-items: center;">
+			<h6 id="notif_msg"></h6>
+			<div id="notificationsDetails"></div>
+		</div>
+    </div>
+</body>
+</html>
+
+

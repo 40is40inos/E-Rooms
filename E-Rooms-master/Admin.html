@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Administrator</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./style.css">
+	<script src="./admin_script.js"></script>
+	<script src="./script.js"></script>
+	<style>
+		h1 {
+			text-align: center;
+		}
+		.btn {
+			display: inline-block;
+		}
+	</style>
+</head>
+<body onload="showEmployees();">
+	<nav class="navbar navbar-expand-lg navbar-dark ">
+		<div class="container">
+			<a class="navbar-brand">Administrator</a>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a id="btn_employees" class="nav-link" href="#" onclick="showEmployees(); return false;">Employees</a>
+					</li>
+					<li class="nav-item">
+						<a id="btn_rooms" class="nav-link" href="#" onclick="showRooms(); return false;">Rooms</a>
+					</li>					
+					<li class="nav-item">
+						<a id="btn_reservs" class="nav-link" href="#" onclick="showReservations(); return false;">Reservations</a>
+					</li>					
+					<li class="nav-item">
+						<a id="btn_logout"  class="nav-link" href="#" onclick="window.location.href = './Login.html';">logout</a>
+					</li>					
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<br>
+
+		<div id="btn_cancel" class="ishidden">
+			<button type="button" class="btn btn-info" onclick="location.reload();">Cancel</button>
+		</div>
+
+		<!-- Employees -->
+		<div id="employees" class="ishidden">
+			<button  type="button" class="btn btn-success" onclick="ShowNewEmployeeForm();" style="margin-bottom: 10px;" >Add New Employee</button><br>
+			<button id="btn_delEmpl"  type="button" class="btn btn-danger" onclick="deleteEmployee();" disabled>Delete Employee</button>
+			<input 
+				type="number" 
+				id="del_employee_id" 
+				name="employee_id" 
+				style="width: 60px;" 
+				placeholder="id" 
+				onclick="document.getElementById('btn_delEmpl').disabled = false;">
+			<button id="btn_editEmpl"  type="button" class="btn btn-danger" onclick="ShowEditEmployeeForm(document.getElementById('edit_employee_id').value);" disabled>Edit Employee</button>
+			<input 
+				type="number" 
+				id="edit_employee_id" 
+				name="employee_id" 
+				style="width: 60px;" 
+				placeholder="id" 
+				onclick="document.getElementById('btn_editEmpl').disabled = false;">
+			<h6 id="empl_msg"></h6>
+			<div class="d-flex flex-column ">
+				<table id="employeesTable" class="styled-table"></table>
+			</div>
+		</div>
+		<div id="addPersonForm" class="ishidden">
+			<div  class="login-prompt">
+				<form id="personForm" onsubmit="addPerson(); return false;">
+					<div class="form-group">
+						<label for="employee_id">Employee_id</label>
+						<input type="text" class="form-control" id="employee_id" name="employee_id" disabled>
+					</div>
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" class="form-control" id="username" name="username">
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="text" class="form-control" id="password" name="password">
+					</div>
+					<button id="btn_addPerson" type="submit" class="btn btn-danger">Add</button>
+					<button id="btn_addPersonOK" type="button" class="btn btn-success" disabled onclick="showEmployees();">OK</button>
+				</form>
+				<div id="newPerson_msg"></div>
+			</div>
+		</div>  
+		<div id="addEmployeeForm" class="ishidden">
+			<div  class="form-prompt">
+				<form id="employeeForm" onsubmit="addEmployee(); return false;">
+					<div class="form-group">
+						<label for="position">Position:</label><br>
+						<input type="text" name="position" id="new_position" required>			
+					</div>
+					<div class="form-group">
+						<label for="FirstName">First Name:</label><br>
+						<input type="text" name="FirstName" id="new_FirstName" pattern="[a-zA-Z]+" required>
+					</div>
+					<div class="form-group">
+						<label for="LastName">Last Name:</label><br> 
+						<input type="text" name="LastName" id="new_LastName" pattern="[a-zA-Z]+" required>
+					</div>
+					<div class="form-group">
+						<label for="gender">Gender:</label><br>
+						<select name="gender" id="new_gender">
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="email">Email:</label><br>
+						<input type="email" name="email" id="new_email" required>
+					</div>
+					<div class="form-group">
+						<label for="phone_number">Phone Number:</label><br>
+						<input type="tel" name="phone_number" id="new_phone_number">
+					</div>
+					<div class="form-group">
+						<label for="country">Country:</label><br>
+						<input type="text" name="country" id="new_country">
+					</div>
+					<div class="form-group">
+						<label for="city">City:</label><br>
+						<input type="text" name="city" id="new_city">
+					</div>
+					<div class="form-group">
+						<label for="zip_code">Zip Code:</label><br>
+						<input type="text" name="zip_code" id="new_zip_code">
+					</div>
+					<div class="form-group">
+						<label for="address">Address:</label><br>
+						<input type="text" name="address" id="new_address">
+					</div>
+					<button type="submit" class="btn btn-danger">Add</button>
+					<button id="btn_addEmployeeOK" type="button" class="btn btn-success" disabled onclick="showEmployees();">OK</button>
+				</form>
+				<div id="newEmployee_msg"></div>
+			</div>
+		</div>  
+		<div id="editemployeeForm" class="ishidden">
+			<div  class="form-prompt">
+				<form id="edit_employeeForm" onsubmit="editEmployee(); return false;">					
+					<div class="form-group">
+						<label for="id">id:</label><br>
+						<input type="text" name="id" id="empl_id" style="width: 30px;" disabled >			
+					</div>
+					<div class="form-group">
+						<label for="position">Position:</label><br>
+						<input type="text" name="position" id="position" required>			
+					</div>
+					<div class="form-group">
+						<label for="FirstName">First Name:</label><br>
+						<input type="text" name="FirstName" id="FirstName" required>
+					</div>
+					<div class="form-group">
+						<label for="LastName">Last Name:</label><br>
+						<input type="text" name="LastName" id="LastName" required>
+					</div>
+					<div class="form-group">
+						<label for="gender">Gender:</label><br>
+						<select name="gender" id="gender">
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="email">Email:</label><br>
+						<input type="email" name="email" id="email" required>
+					</div>
+					<div class="form-group">
+						<label for="phone_number">Phone Number:</label><br>
+						<input type="tel" name="phone_number" id="phone_number">
+					</div>
+					<div class="form-group">
+						<label for="country">Country:</label><br>
+						<input type="text" name="country" id="country">
+					</div>
+					<div class="form-group">
+						<label for="city">City:</label><br>
+						<input type="text" name="city" id="city">
+					</div>
+					<div class="form-group">
+						<label for="zip_code">Zip Code:</label><br>
+						<input type="text" name="zip_code" id="zip_code">
+					</div>
+					<div class="form-group">
+						<label for="address">Address:</label><br>
+						<input type="text" name="address" id="address">
+					</div>
+					<button id="btn_updateEmployee" type="submit" class="btn btn-danger">Update</button>
+					<button id="btn_editEmployee_OK" type="button" class="btn btn-success" disabled onclick="showEmployees();">OK</button>
+				</form>
+				<div id="newEmployeeEdit_msg"></div>
+			</div>
+		</div>  
+
+		<!-- Rooms -->
+		<div id="rooms" class="ishidden">
+			<button  type="button" class="btn btn-success" onclick="ShowNewRoomForm();" >Add New Room</button><br>
+			<h6 id="room_msg"></h6>
+			<div class="d-flex flex-column ">
+				<table id="roomsTable" class="styled-table"></table>
+			</div>
+		</div>
+		<div id="addRoomForm" class="ishidden">
+			<div  class="form-prompt">
+				<form id="roomForm" onsubmit="addRoom(); return false;">
+					<div class="form-group">
+						<label for="room_name">Room Name:</label><br>
+						<input type="text" name="room_name" id="new_room_name" required>			
+					</div>
+					<div class="form-group">
+						<label for="photo1">Photo 1:</label><br>
+						<input type="text" name="photo1" id="new_photo1" required >
+					</div>
+					<div class="form-group">
+						<label for="photo2">Photo 2:</label><br>
+						<input type="text" name="photo2" id="new_photo2" >
+					</div>
+					<div class="form-group">
+						<label for="min_person_capacity">Minimum Person Capacity:</label><br>
+						<input type="number" name="min_person_capacity" id="new_min_person_capacity" value="2" required>
+					</div>
+					<div class="form-group">
+						<label for="max_person_capacity">Maximum Person Capacity:</label><br>
+						<input type="number" name="max_person_capacity" id="new_max_person_capacity" value="2" required>
+					</div>
+					<button id="btn_addRoom" type="submit" class="btn btn-danger">Add</button>
+					<button id="btn_addRoomOK" type="button" class="btn btn-success" disabled onclick="showRooms();">OK</button>
+				</form>
+				<div id="newRoom_msg"></div>
+			</div>
+		</div> 
+		<div id="editRoomForm" class="ishidden">
+			<div  class="form-prompt">
+				<form id="edit_roomForm" onsubmit="editRoom(); return false;">
+					<div class="form-group">
+						<label for="ed_room_id">id:</label><br>
+						<input type="text" name="ed_room_id" id="ed_room_id" style="width: 30px;" disabled >			
+					</div>
+					<div class="form-group">
+						<label for="room_name">Room Name:</label><br>
+						<input type="text" name="room_name" id="room_name" style="width: 300px;" required >			
+					</div>
+					<div class="form-group">
+						<label for="photo1">Photo 1:</label><br>
+						<img src="" id="displ_photo1" height="200" width="200"><br>
+						<input type="text" name="photo1" id="photo1" style="width: 300px;" required>
+					</div>
+					<div class="form-group">
+						<label for="photo2">Photo 2:</label><br>
+						<img src="" id="displ_photo2" height="200" width="200"><br>
+						<input type="text" name="photo2" id="photo2" style="width: 300px;">
+					</div>
+					<div class="form-group">
+						<label for="min_person_capacity">Minimum Person Capacity:</label><br>
+						<input type="number" name="min_person_capacity" id="min_person_capacity" style="width: 60px;" value="2" required>
+					</div>
+					<div class="form-group">
+						<label for="max_person_capacity">Maximum Person Capacity:</label><br>
+						<input type="number" name="max_person_capacity" id="max_person_capacity" style="width: 60px;" value="2" required>
+					</div>
+					<button id="btn_updateRoom" type="submit" class="btn btn-danger">Update</button>
+					<button id="btn_updateRoomOK" type="button" class="btn btn-success" disable onclick="showRooms();">OK</button>
+				</form>
+				<div id="newRoomEdit_msg"></div>
+			</div>
+		</div> 
+
+		<!-- Reservations -->
+		<div id="reservations" class="ishidden">
+			<div class="d-flex flex-column ">
+				<table id="reservationsTable" class="styled-table"></table>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
